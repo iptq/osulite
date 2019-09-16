@@ -1,6 +1,6 @@
 import json
 
-from flask import Blueprint, request, render_template
+from flask import Blueprint, abort, request, render_template, url_for, redirect
 from bs4 import BeautifulSoup
 import requests
 
@@ -37,3 +37,11 @@ def userpage(id):
 		return render_template("userpage.html", user=user)
 	except Exception as e:
 		return ("somethign fucked up: " + e)
+
+@blueprint.route("/search/users", methods=["POST"])
+def search_users():
+	user = request.form.get("id")
+	if user is None:
+		return abort(404)
+	else:
+		return redirect(url_for("views.userpage", id=user))
