@@ -1,5 +1,8 @@
 from flask import Flask
+from objects import cache
+
 app = Flask(__name__)
+cache.init_app(app)
 
 @app.context_processor
 def utility_processor():

@@ -4,7 +4,13 @@ from flask import Blueprint, request, render_template
 from bs4 import BeautifulSoup
 import requests
 
+from objects import cache
+
 blueprint = Blueprint("views", __name__)
+
+@cache.cached(timeout=30, key_prefix='fetch_userpage_%s')
+def fetch_userpage(id):
+	return requests.get("https://osu.ppy.sh/u/{}".format(id))
 
 @blueprint.route("/")
 def index():
@@ -19,7 +25,7 @@ def userpage(id):
 		mode = 0
 
 	try:
-		r = requests.get("https://osu.ppy.sh/u/{}".format(id))
+		r = fetch_userpage(id)
 		soup = BeautifulSoup(r.content)
 		user_data = json.loads(soup.find("script", {"id": "json-user"}).text)
 		extras_data = json.loads(soup.find("script", {"id": "json-extras"}).text)
