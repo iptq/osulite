@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container">
+    <div class="columns">
+        <div class="column is-one-quarter">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-square">
+                        <img src="https://a.ppy.sh/{{ user.data.id }}" alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4">{{ user.data.username }}</p>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        {% if user.data.location %}<p><i class="fa fa-fw fa-map-marker"></i> {{ user.data.location }}</p>{% endif %}
+                        {% if user.data.occupation %}<p><i class="fa fa-fw fa-pencil"></i> {{ user.data.occupation }}</p>{% endif %}
+                        {% if user.data.interests %}<p><i class="fa fa-fw fa-heart-o"></i> {{ user.data.interests }}</p>{% endif %}
+                        {% if user.data.twitter %}<p><i class="fa fa-fw fa-twitter"></i> {{ user.data.twitter }}</p>{% endif %}
+                        {% if user.data.discord %}<p><i class="fa fa-fw fa-simplybuilt"></i> {{ user.data.discord }}</p>{% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div style="max-height: 128px; overflow-y: scroll;">
+                {{ user.data.page.html | safe }}
+            </div>
+
+            <div class="tabs is-fullwidth">
+                <ul>
+                    <li class="tab is-active"><a>Standard</a></li>
+                    <li class="tab"><a>Taiko</a></li>
+                    <li class="tab"><a>Catch</a></li>
+                    <li class="tab"><a>Mania</a></li>
+                </ul>
+            </div>
+
+            <div>
+            	<b>Performance:</b> {{ "{:,.2f}pp".format(user.data.statistics.pp) }}
+            </div>
+
+            <div class="section">
+            	<div class="card">
+            	<h2 class="subtitle">Recent Activity</h2>
+            	{% for activity in user.extras.recentActivity %}
+            		<p>{{ format_activity(activity) | safe }}</p>
+            	{% endfor %}
+            </div>
+            </div>
+
+            <div class="section">
+            	<div class="card">
+            	<h2 class="subtitle">Detailed Stats</h2>
+
+            	<p><b>Ranked score:</b> {{ "{:,}".format(user.data.statistics.ranked_score) }}</p>
+            	<p><b>Hit accuracy:</b> {{ "{:,.2f}%".format(user.data.statistics.hit_accuracy) }}</p>
+            	<p><b>Play count:</b> {{ "{:,}".format(user.data.statistics.play_count) }}</p>
+            	<p><b>Play time:</b> {{ "{:,.2f}".format(user.data.statistics.play_time / 3600) }} hours</p>
+            	<p><b>Total score:</b> {{ "{:,}".format(user.data.statistics.total_score) }}</p>
+            	<p><b>Total hits:</b> {{ "{:,}".format(user.data.statistics.total_hits) }}</p>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
