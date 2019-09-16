@@ -20,6 +20,14 @@ def index():
 def userpage_redirect(id):
 	return redirect(url_for("views.userpage", id=id))
 
+@blueprint.route("/s/<id>")
+def mappage(id):
+	return redirect("https://old.ppy.sh/s/{}".format(id))
+
+@blueprint.route("/b/<id>")
+def mappage(id):
+	return redirect("https://old.ppy.sh/b/{}".format(id))
+
 @blueprint.route("/u/<id>")
 def userpage(id):
 	mode = request.args.get("m", "0")
