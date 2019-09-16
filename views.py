@@ -21,6 +21,7 @@ def userpage_redirect(id):
 	return redirect(url_for("views.userpage", id=id))
 
 @blueprint.route("/s/<id>")
+@blueprint.route("/beatmapsets/<id>")
 def mapsetpage(id):
 	return redirect("https://old.ppy.sh/s/{}".format(id))
 
