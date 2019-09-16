@@ -16,6 +16,10 @@ def fetch_userpage(id):
 def index():
 	return render_template("index.html")
 
+@blueprint.route("/users/<id>")
+def userpage_redirect(id):
+	return redirect(url_for("views.userpage", id=id))
+
 @blueprint.route("/u/<id>")
 def userpage(id):
 	mode = request.args.get("m", "0")
